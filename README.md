@@ -6,11 +6,11 @@ This is a console based save editor for Arziona Sunshine 2 on PCVR. The major be
 
 Run the app from a commandline with adminstrator privileges. The app will attempt to locate your Arizona Sunshine 2 save file, usually located here,
 
-c:\Program Files (x86)\Steam\userdata\[SteamUserId]\1540210\remote\Savegame.save
+c:\Program Files (x86)\Steam\userdata\\[SteamUserId]\1540210\remote\Savegame.save
 
 If this cannot be located you will need to specify the path to your save file with the -s parameter, like so,
 
-./as2-save-edit.exe -s "c:\Program Files (x86)\Steam\userdata\[SteamUserId]\1540210\remote\Savegame.save"
+./as2-save-edit.exe -s "c:\Program Files (x86)\Steam\userdata\\[SteamUserId]\1540210\remote\Savegame.save"
 
 If the app is able to parse your save you will be prompted to select a save slot. The app will then display the ammo and items in that save slot. After displaying the current loadout the app will prompt you for a new loadout.
 
