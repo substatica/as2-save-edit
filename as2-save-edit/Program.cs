@@ -185,7 +185,7 @@ namespace as2_save_edit
 
 			string slot = null;
 			while (String.IsNullOrEmpty(slot)
-				|| (Convert.ToInt16(slot) >= ShortWeapons.Count || Convert.ToInt16(slot) < 0))
+				|| (Convert.ToInt16(slot) >= save.savedGameStates.Count || Convert.ToInt16(slot) < 0))
 			{
 				Console.WriteLine();
 				Console.Write("  Save game to edit: ");
@@ -193,10 +193,27 @@ namespace as2_save_edit
 			}
 			int slotIndex = Convert.ToInt16(slot);
 
-			var PistolAmmo = save.savedGameStates[slotIndex].players[0].resources.Resources.Where(o => Convert.ToInt32(o.resourceId) == 15).First().amount;
-			var Shotgun = save.savedGameStates[slotIndex].players[0].resources.Resources.Where(o => Convert.ToInt32(o.resourceId) == 17).First().amount;
-			var Rifle = save.savedGameStates[slotIndex].players[0].resources.Resources.Where(o => Convert.ToInt32(o.resourceId) == 19).First().amount;
-			var Alternate = save.savedGameStates[slotIndex].players[0].resources.Resources.Where(o => Convert.ToInt32(o.resourceId) == 18).First().amount;
+
+			Console.WriteLine();
+			for (int i = 0; i < save.savedGameStates[slotIndex].players.Count; i++)
+			{
+				Console.WriteLine("  " + i + ") Player " + (i+1));
+			}
+
+			string player = null;
+			while (String.IsNullOrEmpty(player)
+				|| (Convert.ToInt16(player) >= save.savedGameStates[slotIndex].players.Count || Convert.ToInt16(player) < 0))
+			{
+				Console.WriteLine();
+				Console.Write("  Player to edit: ");
+				player = Console.ReadLine();
+			}
+			int playerIndex = Convert.ToInt16(slot);
+
+			var PistolAmmo = save.savedGameStates[slotIndex].players[playerIndex].resources.Resources.Where(o => Convert.ToInt32(o.resourceId) == 15).FirstOrDefault()?.amount;
+			var Shotgun = save.savedGameStates[slotIndex].players[playerIndex].resources.Resources.Where(o => Convert.ToInt32(o.resourceId) == 17).FirstOrDefault()?.amount;
+			var Rifle = save.savedGameStates[slotIndex].players[playerIndex].resources.Resources.Where(o => Convert.ToInt32(o.resourceId) == 19).FirstOrDefault()?.amount;
+			var Alternate = save.savedGameStates[slotIndex].players[playerIndex].resources.Resources.Where(o => Convert.ToInt32(o.resourceId) == 18).FirstOrDefault()?.amount;
 
 			var AmmoFormat = "  Pistol: {0}/150\r\n  Shotgun: {1}/30\r\n  Rifle: {2}/200\r\n  Fuel/Grenade: {3}/10";
 
@@ -208,7 +225,7 @@ namespace as2_save_edit
 			Console.WriteLine();
 			Console.WriteLine("  Hands/Sleeves");
 			Console.WriteLine("  ----------------------------------------------------------");
-			foreach (var bodySlot in save.savedGameStates[slotIndex].players[0].hands.BodySlots)
+			foreach (var bodySlot in save.savedGameStates[slotIndex].players[playerIndex].hands.BodySlots)
 			{
 				var itemId = Convert.ToInt32(bodySlot.ItemCellIds[0]);
 				if (ShortWeapons.Where(o => o.Id == itemId).Count() > 0)
@@ -224,7 +241,7 @@ namespace as2_save_edit
 			Console.WriteLine();
 			Console.WriteLine("  Player Inventory");
 			Console.WriteLine("  ----------------------------------------------------------");
-			foreach (var inventorySlot in save.savedGameStates[slotIndex].players[0].inventory.SlotData)
+			foreach (var inventorySlot in save.savedGameStates[slotIndex].players[playerIndex].inventory.SlotData)
 			{
 				if (inventorySlot.ItemCellIds.Count > 0)
 				{
@@ -255,8 +272,8 @@ namespace as2_save_edit
 				}
 			}
 
-			save.savedGameStates[slotIndex].players[0].hands.BodySlots.Clear();
-			save.savedGameStates[slotIndex].players[0].inventory.SlotData.Clear();
+			save.savedGameStates[slotIndex].players[playerIndex].hands.BodySlots.Clear();
+			save.savedGameStates[slotIndex].players[playerIndex].inventory.SlotData.Clear();
 			save.savedGameStates[slotIndex].companionInventory.SlotData.Clear();
 
 			Console.WriteLine();
@@ -371,7 +388,7 @@ namespace as2_save_edit
 			}
 			bool maxAmmoBool = maxAmmo.ToUpper() == "Y";
 
-			save.savedGameStates[slotIndex].players[0].hands.BodySlots.AddRange(new List<JsonClasses.BodySlot>() {
+			save.savedGameStates[slotIndex].players[playerIndex].hands.BodySlots.AddRange(new List<JsonClasses.BodySlot>() {
 				new JsonClasses.BodySlot()
 				{
 					SlotType = 2,
@@ -384,7 +401,7 @@ namespace as2_save_edit
 				}
 			});
 
-			save.savedGameStates[slotIndex].players[0].inventory.SlotData.AddRange(new List<JsonClasses.SlotDatum>() {
+			save.savedGameStates[slotIndex].players[playerIndex].inventory.SlotData.AddRange(new List<JsonClasses.SlotDatum>() {
 				new JsonClasses.SlotDatum()
 				{
 					ItemCellIds = new List<int>() { leftHipId }
@@ -416,10 +433,10 @@ namespace as2_save_edit
 
 			if(maxAmmoBool)
 			{
-				SetResource(15, 150, save.savedGameStates[slotIndex].players[0].resources.Resources);
-				SetResource(17, 30, save.savedGameStates[slotIndex].players[0].resources.Resources);
-				SetResource(19, 200, save.savedGameStates[slotIndex].players[0].resources.Resources);
-				SetResource(18, 10, save.savedGameStates[slotIndex].players[0].resources.Resources);
+				SetResource(15, 150, save.savedGameStates[slotIndex].players[playerIndex].resources.Resources);
+				SetResource(17, 30, save.savedGameStates[slotIndex].players[playerIndex].resources.Resources);
+				SetResource(19, 200, save.savedGameStates[slotIndex].players[playerIndex].resources.Resources);
+				SetResource(18, 10, save.savedGameStates[slotIndex].players[playerIndex].resources.Resources);
 			}
 
 			var jsonString = JsonConvert.SerializeObject(save, Formatting.None, new JsonSerializerSettings
