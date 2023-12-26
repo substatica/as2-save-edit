@@ -12,7 +12,7 @@ If this cannot be located you will need to specify the path to your save file wi
 
 ./as2-save-edit.exe -s "c:\Program Files (x86)\Steam\userdata\\[SteamUserId]\1540210\remote\Savegame.save"
 
-If the app is able to parse your save you will be prompted to select a save slot. The app will then display the ammo and items in that save slot. After displaying the current loadout the app will prompt you for a new loadout.
+If the app is able to parse your save you will be prompted to select a save slot. You will then be prompted to select a player, for select 0 for Player 1, I am not yet sure of the functionality of the second player save slot. The app will then display the ammo and items in that save slot. After displaying the current loadout the app will prompt you for a new loadout.
 
 A small weapon for each hip slot. An explosive for each sleeve slot. A long weapon for the shoulder slot, and two weapons for the companion, Buddy's, slots. Buddy is indended to carry two small weapons however you can select any two items for Buddy to carry, once removed from Buddy you will only be able to re-add small weapons. In this way you can load Buddy with two mini guns, but you will not be able to store them back on Buddy, or in any other slots.
 
